@@ -3,19 +3,55 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --background: #060610;
+  --foreground: #0b0b15;
+  --primary: #400089;
+  --secondary: #7746a5;
+  --tertiary: #37354a;
+  --income: #008a75;
+  --expense: #e63e3e;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --text: #b4b4b4;
 }
 
 body {
-  color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+}
+
+@layer components {
+  .container {
+    @apply w-[1400px] max-w-[95%] mx-auto;
+  }
+
+  .button {
+    @apply bg-primary flex justify-center items-center;
+    @apply gap-2 rounded-md px-4 h-9 text-sm font-semibold;
+    @apply hover:bg-tertiary transition-all w-full;
+  }
+
+  .input {
+    @apply bg-foreground px-4 py-2 rounded-md outline-none;
+    @apply w-full focus:border border-white/20;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--foreground);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 10px;
+  border: 2px solid var(--primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
