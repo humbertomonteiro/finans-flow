@@ -95,11 +95,13 @@ export default function ItemListTransaction({
       </div>
       <div className="flex lg:gap-4 gap-2">
         <button onClick={() => setShowModalUpdate(!showModalUpdate)}>
-          <MdOutlineEdit className="text-xl text-text" />
+          <MdOutlineEdit className="text-xl text-text" />{" "}
+          <span className="hidden">Editar Transação</span>
         </button>
 
         <button onClick={() => setShowModalDelete(!showModalDelete)}>
-          <MdDeleteOutline className="text-xl text-secondary" />
+          <MdDeleteOutline className="text-xl text-secondary" />{" "}
+          <span className="hidden">Apagar Transação</span>
         </button>
 
         <button onClick={() => handleStatus(transaction)}>
@@ -108,6 +110,7 @@ export default function ItemListTransaction({
           ) : (
             <FiXCircle className="text-xl text-expense" />
           )}
+          <span className="hidden">Resolver Transação</span>
         </button>
       </div>
       {showModalDelete && (

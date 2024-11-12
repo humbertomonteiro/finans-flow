@@ -3,43 +3,17 @@
 import { useState } from "react";
 
 import useTransaction from "@/app/data/hooks/useTransaction";
-import ListTransactions from "@/app/components/shared/ListTransactions";
 import NavigatorMonth from "@/app/components/shared/NavigatorMonth";
 import BoxManager from "@/app/components/shared/BoxManager";
 import ModalAddTransaction from "@/app/components/shared/ModalAddTransaction";
+import BoxListTransactions from "@/app/components/shared/BoxListTransactions";
 
 import { PiPiggyBank } from "react-icons/pi";
 import { LuTrendingUp, LuTrendingDown } from "react-icons/lu";
 import { MdBalance } from "react-icons/md";
 import { TbArrowsExchange } from "react-icons/tb";
-import { Transaction } from "@/domain";
 
 import Image from "next/image";
-
-interface BoxListTransactionsProps {
-  transactions: Transaction[];
-  title: string;
-}
-
-function BoxListTransactions({
-  transactions,
-  title,
-}: BoxListTransactionsProps) {
-  return (
-    <>
-      {transactions.length > 0 && (
-        <article className="flex-1 rounded-xl bg-background">
-          <div className="flex justify-between items-center pt-4 pb-0 pl-2">
-            <h2 className="text-md text-zinc-500">{title}</h2>
-          </div>
-          <div className=" w-full max-h-[350px] overflow-y-scroll rounded-xl">
-            <ListTransactions transactions={transactions} />
-          </div>
-        </article>
-      )}
-    </>
-  );
-}
 
 export default function Dashboard() {
   const {
@@ -57,16 +31,12 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col">
-      {/* <div className="mb-4 flex justify-between items-center">
-         <h1 className="text-2xl md:text-3xl text-zinc-500">Dashboard</h1> 
-      </div> */}
-
-      <section className="flex flex-col gap-12 mb-12">
+      <section className="flex flex-col gap-8 mb-12">
         <div className="flex flex-col md:flex-row justify-between gap-4">
           <div className="flex-1 flex flex-col gap-4">
             <div className="flex justify-between">
               <button
-                className="button w-fit text-2xl"
+                className="button w-fit px-4 text-2xl rounded-xl"
                 onClick={() => setShowModalAdd(!showModalAdd)}
               >
                 <span className="text-sm hidden lg:block">
@@ -89,7 +59,7 @@ export default function Dashboard() {
               type="default"
             />
           </div>
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1 md:flex justify-center hidden">
             <Image
               src="/imgs/img-money.jpg"
               alt="imagem ilustração dinheiro"
@@ -100,7 +70,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <h2 className="text-lg md:text-xl mb-[-2rem] text-zinc-500">
+        <h2 className="text-lg md:text-xl mb-[-2rem] text-textSecondary">
           Resumo do mês
         </h2>
         <div className="grid grid-cols-2 md:flex md:flex-row gap-4">

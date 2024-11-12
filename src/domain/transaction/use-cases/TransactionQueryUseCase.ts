@@ -131,14 +131,51 @@ export default class TransactionQueryUseCase {
   }
 
   private getOverduesTransactions(): Transaction[] {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+
     return this.transactions.filter((transaction) => {
-      return transaction.paymentHistory.some((payment) => {
-        const paymentDate = new Date(payment.date);
+      if (transaction.fixed) {
+        const isDeletedForCurrentMonth = transaction.deletedMonths?.some(
+          (deleted) =>
+            deleted.year === currentYear && deleted.month === currentMonth
+        );
+
+        if (isDeletedForCurrentMonth) return false;
+
+        const hasPaymentAndAsPending = transaction.paymentHistory.some(
+          (payment) => {
+            const paymentDate = new Date(payment.date);
+
+            return (
+              payment.status === PaymentStatus.PENDING &&
+              paymentDate < new Date()
+            );
+          }
+        );
+
+        const hasCurrentPayment = transaction.paymentHistory.some((payment) => {
+          const paymentDate = new Date(payment.date);
+          return (
+            paymentDate.getFullYear() === currentYear &&
+            paymentDate.getMonth() === currentMonth
+          );
+        });
 
         return (
-          payment.status === PaymentStatus.PENDING && paymentDate < new Date()
+          (!hasCurrentPayment && new Date(transaction.startDate) < today) ||
+          hasPaymentAndAsPending
         );
-      });
+      } else {
+        return transaction.paymentHistory.some((payment) => {
+          const paymentDate = new Date(payment.date);
+
+          return (
+            payment.status === PaymentStatus.PENDING && paymentDate < new Date()
+          );
+        });
+      }
     });
   }
 

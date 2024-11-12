@@ -98,7 +98,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  if (loading) return <p className="p-4 text-2xl">Carregando...</p>;
+  if (loading)
+    return (
+      <p className="p-4 text-2xl h-screen w-full text-center flex justify-center items-center">
+        Carregando...
+      </p>
+    );
 
   return (
     <AuthContext.Provider

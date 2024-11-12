@@ -3,15 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --background: #060610;
-  --foreground: #0b0b15;
+  --background: #0a0a0a;
+  --foreground: #1d1d1d;
   --primary: #400089;
   --secondary: #7746a5;
   --tertiary: #37354a;
   --income: #008a75;
   --expense: #e63e3e;
 
-  --text: #b4b4b4;
+  --text: #e5e7eb;
+  --text-2: #9ca3af;
 }
 
 body {

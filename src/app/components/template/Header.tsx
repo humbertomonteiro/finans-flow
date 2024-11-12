@@ -36,9 +36,9 @@ export default function Header() {
         </Link>
         <button
           onClick={() => setShowModalAdd(!showModalAdd)}
-          className="text-2xl button p-0 h-[55px] w-[55px] rounded-full fixed bottom-[45px] left-[44%] md:top-[80px] md:right-4 md:left-auto md:rounded-xl md:h-[40px] md:w-[60px]"
+          className="text-2xl button p-0 h-[55px] w-[55px] rounded-full fixed bottom-[45px] left-[43%] md:top-[80px] md:right-4 md:left-auto md:rounded-xl md:h-[40px] md:w-fit md:px-4"
         >
-          +
+          <span className="text-sm hidden md:block">Adicionar Transação </span>+
         </button>
         <Link
           className="text-[0.65rem] flex-1 text-center flex-col md:flex-row flex justify-between items-center gap-1 md:text-sm"

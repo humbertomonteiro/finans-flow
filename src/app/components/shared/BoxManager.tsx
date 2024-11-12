@@ -28,7 +28,7 @@ export default function BoxManager({
             ? "text-income"
             : type === "expense"
             ? "text-expense"
-            : "text-zinc-00"
+            : "text-textSecondary"
         } flex justify-between items-center text-sm mb-4`}
       >
         {title} {icon}

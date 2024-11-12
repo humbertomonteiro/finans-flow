@@ -16,6 +16,8 @@ const config: Config = {
         tertiary: "var(--tertiary)",
         income: "var(--income)",
         expense: "var(--expense)",
+        textPrimary: "var(--text)",
+        textSecondary: "var(--text-2)",
       },
     },
   },

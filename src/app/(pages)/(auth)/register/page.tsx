@@ -18,9 +18,9 @@ export default function Login() {
   }
   return (
     <section className="container h-screen flex flex-col justify-center items-center">
-      <h1 className="text-5xl font-bold mb-4">Finans Flow</h1>
+      <h1 className="text-5xl font-bold mb-4 text-textPrimary">Finans Flow</h1>
 
-      <p className="mb-4 text-slate-500">
+      <p className="mb-4 text-textSecondary">
         Seja bem-vindo! Aproveite nossos serviços.
       </p>
 
@@ -55,9 +55,9 @@ export default function Login() {
         </button>
       </form>
 
-      <Link href={"/"} className="mt-4 text-slate-500">
+      <Link href={"/"} className="mt-4 text-textSecondary">
         Já tem uma conta?{" "}
-        <span className="font-bold text-slate-300">Faça login</span>
+        <span className="font-bold text-textPrimary">Faça login</span>
       </Link>
     </section>
   );

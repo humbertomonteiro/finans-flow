@@ -65,7 +65,7 @@ export default function ModalAddTransaction({
     }
   }
   return (
-    <article className="fixed z-10 right-0 left-0 top-0 bottom-0 flex justify-center items-center bg-[#2929297a]">
+    <article className="fixed z-10 right-0 left-0 top-0 bottom-0 flex justify-center items-center bg-[#1b1b1be1]">
       <div className="bg-background p-4 rounded-xl flex flex-col z-20 w-[90%] max-w-[450px]">
         <div className="flex justify-between items-center gap-4 text-xl">
           <h2 className="mb-1 p-0">Adicionar transação</h2>

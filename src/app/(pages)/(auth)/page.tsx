@@ -18,7 +18,7 @@ export default function Login() {
   return (
     <section className="container h-screen flex flex-col justify-center items-center">
       <h1 className="text-5xl font-bold mb-4">Finans Flow</h1>
-      <p className="mb-4 text-slate-500">Seja bem-vindo de volta!</p>
+      <p className="mb-4 text-textSecondary">Seja bem-vindo de volta!</p>
       <form
         onSubmit={handleLogin}
         className="w-[600px] max-w-full flex flex-col gap-4"
@@ -42,9 +42,9 @@ export default function Login() {
           Entrar
         </button>
       </form>
-      <Link href={"/register"} className="mt-4 text-slate-500">
+      <Link href={"/register"} className="mt-4 text-textSecondary">
         Ainda não tem Cadastro?{" "}
-        <span className="font-bold text-slate-300">Cadastre-se</span>
+        <span className="font-bold text-textPrimary">Cadastre-se</span>
       </Link>
     </section>
   );

@@ -29,7 +29,7 @@ export default function ModalDeleteTransaction({
   }
 
   return (
-    <article className="fixed z-10 right-0 left-0 top-0 bottom-0 flex justify-center items-center bg-[#2929297a]">
+    <article className="fixed z-10 right-0 left-0 top-0 bottom-0 flex justify-center items-center bg-[#1b1b1be1]">
       <div className="bg-background p-4 rounded-xl flex flex-col z-20 w-[90%] max-w-[400px]">
         <div className="flex justify-between items-center gap-4 text-xl">
           <h2 className="mb-1 p-0">Deletar transação</h2>
@@ -43,7 +43,7 @@ export default function ModalDeleteTransaction({
           <div className="flex flex-col justify-between gap-2 flex-wrap">
             <button
               onClick={() => handleDeleteTransaction(OptionsAction.CURRENT)}
-              className="bg-secondary rounded-lg text-background flex-1 min-w text-sm py-1"
+              className="bg-secondary rounded-lg flex-1 min-w text-sm py-1"
             >
               Apenas essa
             </button>
@@ -51,13 +51,13 @@ export default function ModalDeleteTransaction({
               onClick={() =>
                 handleDeleteTransaction(OptionsAction.FROM_CURRENT)
               }
-              className="bg-primary rounded-lg text-background flex-1 min-w text-sm py-1"
+              className="bg-primary rounded-lg flex-1 min-w text-sm py-1"
             >
               Dessa am diante
             </button>
             <button
               onClick={() => handleDeleteTransaction(OptionsAction.ALL)}
-              className="bg-expense rounded-lg text-background flex-1 min-w text-sm py-1"
+              className="bg-expense rounded-lg flex-1 min-w text-sm py-1"
             >
               Todas
             </button>
@@ -66,13 +66,13 @@ export default function ModalDeleteTransaction({
           <div className="flex justify-between gap-2">
             <button
               onClick={() => handleDeleteTransaction(OptionsAction.ALL)}
-              className="bg-income rounded-lg text-background flex-1 text-sm py-1"
+              className="bg-income rounded-lg flex-1 text-sm py-1"
             >
               Sim
             </button>
             <button
               onClick={() => setShow(false)}
-              className="bg-expense rounded-lg text-background flex-1 text-sm py-1"
+              className="bg-expense rounded-lg flex-1 text-sm py-1"
             >
               Não
             </button>
