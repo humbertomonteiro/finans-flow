@@ -5,7 +5,7 @@ export default class TransactionQueryUseCase {
   constructor(
     private transactions: Transaction[],
     private year: number,
-    private month: number
+    private month: number,
   ) {}
 
   public getQueryResults(queryType: TransactionQueryType): Transaction[] {
@@ -14,8 +14,8 @@ export default class TransactionQueryUseCase {
         return this.getTransactionsForMonth();
       case TransactionQueryType.UPCOMING:
         return this.getUpcomingTransactions();
-      case TransactionQueryType.OVERDUE:
-        return this.getOverduesTransactions();
+      case TransactionQueryType.PENDING:
+        return this.getPendingTransactionsForMonth();
       case TransactionQueryType.INCOME:
         return this.getIncomesTransactions();
       case TransactionQueryType.EXPENSE:
@@ -27,13 +27,13 @@ export default class TransactionQueryUseCase {
 
   private getTransactionsForMonth(
     year: number = this.year,
-    month: number = this.month
+    month: number = this.month,
   ): Transaction[] {
     const transactionUnique = this.getTransactionsUnique(year, month);
 
     const transactionInstallment = this.getTransactionsInstallments(
       year,
-      month
+      month,
     );
 
     const transactionFixed = this.getTransactionsFixed(year, month);
@@ -48,7 +48,7 @@ export default class TransactionQueryUseCase {
   private getTransactionsUnique(year: number, month: number): Transaction[] {
     return this.transactions
       .filter(
-        (transaction) => !transaction.fixed && transaction.installments === 1
+        (transaction) => !transaction.fixed && transaction.installments === 1,
       )
       .filter((transaction) => {
         return (
@@ -60,11 +60,11 @@ export default class TransactionQueryUseCase {
 
   private getTransactionsInstallments(
     year: number,
-    month: number
+    month: number,
   ): Transaction[] {
     return this.transactions
       .filter(
-        (transaction) => !transaction.fixed && transaction.installments > 1
+        (transaction) => !transaction.fixed && transaction.installments > 1,
       )
       .filter((transaction) => {
         return transaction.paymentHistory.some((payment) => {
@@ -85,14 +85,14 @@ export default class TransactionQueryUseCase {
         if (transaction.endDate) {
           const endDate = new Date(
             transaction.endDate.year,
-            transaction.endDate.month
+            transaction.endDate.month,
           );
           if (startDate > endDate) return false;
         }
 
         if (transaction.deletedMonths) {
           const isDeleted = transaction.deletedMonths.some(
-            (deleted) => deleted.year === year && deleted.month === month
+            (deleted) => deleted.year === year && deleted.month === month,
           );
           if (isDeleted) return false;
         }
@@ -104,7 +104,7 @@ export default class TransactionQueryUseCase {
               paymentDate.getFullYear() === year &&
               paymentDate.getMonth() === month
             );
-          }
+          },
         );
 
         return (
@@ -118,7 +118,7 @@ export default class TransactionQueryUseCase {
 
     const transactionMonth = this.getTransactionsForMonth(
       today.getFullYear(),
-      today.getMonth()
+      today.getMonth(),
     );
 
     return transactionMonth.filter((transaction) => {
@@ -130,66 +130,76 @@ export default class TransactionQueryUseCase {
     });
   }
 
-  private getOverduesTransactions(): Transaction[] {
-    const today = new Date();
-    const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth();
+  private getPendingTransactionsForMonth(): Transaction[] {
+    const transactionsUniquesAndInstallments = this.transactions.filter(
+      (transaction) => {
+        if (!transaction.fixed) {
+          return transaction.paymentHistory.some((payment) => {
+            const paymentYear = new Date(payment.date).getFullYear();
+            const paymentMonth = new Date(payment.date).getMonth();
+            const paymentDay = new Date(payment.date).getDate();
+            const today = new Date();
 
-    return this.transactions.filter((transaction) => {
-      if (transaction.fixed) {
-        const isDeletedForCurrentMonth = transaction.deletedMonths?.some(
-          (deleted) =>
-            deleted.year === currentYear && deleted.month === currentMonth
-        );
+            if (payment.status === PaymentStatus.PAID) return false;
 
-        if (isDeletedForCurrentMonth) return false;
+            if (
+              paymentYear <= today.getFullYear() &&
+              paymentMonth <= today.getMonth() &&
+              paymentDay < today.getDate()
+            ) {
+              return true;
+            } else return false;
+          });
+        }
+      },
+    );
 
-        const hasPaymentAndAsPending = transaction.paymentHistory.some(
+    const transactionsFixeds = this.getTransactionsFixed(this.year, this.month)
+      .filter((transaction) => {
+        const hasPaidPaymentForSelectedMonth = transaction.paymentHistory.some(
           (payment) => {
             const paymentDate = new Date(payment.date);
+            const today = new Date();
 
             return (
-              payment.status === PaymentStatus.PENDING &&
-              paymentDate < new Date()
+              paymentDate.getFullYear() === today.getFullYear() &&
+              paymentDate.getMonth() === today.getMonth() &&
+              payment.status === PaymentStatus.PAID
             );
-          }
+          },
         );
+        return !hasPaidPaymentForSelectedMonth;
+      })
+      .filter((transaction) => {
+        const hasPaidPaymentForSelectedMonth = transaction.paymentHistory.some(
+          (payment) => {
+            const paymentDate = new Date(payment.date);
+            const today = new Date();
 
-        const hasCurrentPayment = transaction.paymentHistory.some((payment) => {
-          const paymentDate = new Date(payment.date);
-          return (
-            paymentDate.getFullYear() === currentYear &&
-            paymentDate.getMonth() === currentMonth
-          );
-        });
-
-        return (
-          (!hasCurrentPayment && new Date(transaction.startDate) < today) ||
-          hasPaymentAndAsPending
+            return (
+              paymentDate.getFullYear() === today.getFullYear() &&
+              paymentDate.getMonth() === today.getMonth() &&
+              paymentDate.getDate() > today.getDate()
+            );
+          },
         );
-      } else {
-        return transaction.paymentHistory.some((payment) => {
-          const paymentDate = new Date(payment.date);
+        return !hasPaidPaymentForSelectedMonth;
+      });
 
-          return (
-            payment.status === PaymentStatus.PENDING && paymentDate < new Date()
-          );
-        });
-      }
-    });
+    return [...transactionsUniquesAndInstallments, ...transactionsFixeds];
   }
 
   private getIncomesTransactions(): Transaction[] {
     const transactionsMonth = this.getTransactionsForMonth();
     return transactionsMonth.filter(
-      (transaction) => transaction.type === TransactionType.INCOME
+      (transaction) => transaction.type === TransactionType.INCOME,
     );
   }
 
   private getExpensesTransactions(): Transaction[] {
     const transactionsMonth = this.getTransactionsForMonth();
     return transactionsMonth.filter(
-      (transaction) => transaction.type === TransactionType.EXPENSE
+      (transaction) => transaction.type === TransactionType.EXPENSE,
     );
   }
 }

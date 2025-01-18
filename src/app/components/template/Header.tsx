@@ -42,7 +42,7 @@ export default function Header() {
         </button>
         <Link
           className="text-[0.65rem] flex-1 text-center flex-col md:flex-row flex justify-between items-center gap-1 md:text-sm"
-          href="/transactions"
+          href="/performance"
         >
           <LuTrendingUp className="text-xl " /> Performance
         </Link>

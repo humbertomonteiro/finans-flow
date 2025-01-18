@@ -39,10 +39,10 @@ export default class Query {
     );
   }
 
-  async getOverdueTransactions() {
+  async getPendingTransactions() {
     this.ensureQueryInitialized();
     return await this.transactionQuery?.getQueryResults(
-      TransactionQueryType.OVERDUE
+      TransactionQueryType.PENDING
     );
   }
 

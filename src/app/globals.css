@@ -22,7 +22,7 @@ body {
 
 @layer components {
   .container {
-    @apply w-[1400px] max-w-[95%] mx-auto;
+    @apply w-[1080px] max-w-[95%] mx-auto;
   }
 
   .button {

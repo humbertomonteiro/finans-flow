@@ -26,7 +26,7 @@ export default function Dashboard() {
     transactionsUpcoming,
   } = useTransaction();
 
-  const [handleListTransactions, setHandleListTransactions] = useState(false);
+  const [handleListTransactions, setHandleListTransactions] = useState(true);
   const [showModalAdd, setShowModalAdd] = useState(false);
 
   return (
@@ -99,7 +99,7 @@ export default function Dashboard() {
       <section className="flex flex-col gap-12 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="bg-foreground p-4 rounded-xl">
           <div className="flex justify-between items-center text-lg mb-4">
-            <h2>Transações</h2>
+            <h2>Transações em destaque do mês atual</h2>
             <TbArrowsExchange
               className="cursor-pointer text-2xl"
               onClick={() => setHandleListTransactions(!handleListTransactions)}
@@ -113,7 +113,7 @@ export default function Dashboard() {
           ) : (
             <BoxListTransactions
               transactions={transactionsOverdues}
-              title="Transações atrasadas"
+              title="Transações Pendentes"
             />
           )}
         </div>

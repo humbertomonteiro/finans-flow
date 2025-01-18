@@ -14,6 +14,7 @@ import {
   useState,
 } from "react";
 import { Query, Actions } from "@/application";
+import useAuth from "../hooks/useAuth";
 
 interface TransactionContextProps {
   transactions: Transaction[];
@@ -80,12 +81,21 @@ export default function TransactionProvider({
   const [expenseMonth, setExpenseMonth] = useState("0");
   const [balanceMonth, setBalanceMonth] = useState("0");
 
-  const query = new Query("hZ43IWdDoYQ2wITWALAGPlpVyWq1", year, month);
-  const actions = new Actions("hZ43IWdDoYQ2wITWALAGPlpVyWq1");
+  const { user } = useAuth();
+
+  const userId = user?.uid;
+  if (userId) {
+  } else {
+    console.log("Usuário deslogado");
+  }
+
+  const query = new Query(userId!, year, month);
+  const actions = new Actions(userId!);
 
   useEffect(() => {
     loadTransactions();
-  }, [year, month]);
+    console.log(transactionsOverdues);
+  }, [year, month, userId]);
 
   useEffect(() => {
     const manager = new TransactionManagerUseCase(transactions, year, month);
@@ -102,7 +112,7 @@ export default function TransactionProvider({
 
       setTransactions(allTransactionsUser || []);
       setTransactionsByMonth((await query.getCurrentMonthTransactions()) || []);
-      setTransactionsOverdues((await query.getOverdueTransactions()) || []);
+      setTransactionsOverdues((await query.getPendingTransactions()) || []);
       setTransactionsUpcoming((await query.getUpcomingTransactions()) || []);
     } catch (error) {
       console.error("Error loading transactions:", error);

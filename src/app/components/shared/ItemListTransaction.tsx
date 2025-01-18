@@ -53,7 +53,7 @@ export default function ItemListTransaction({
   const paymentStatusForMonth = transaction.paymentHistory.find(
     (payment: PaymentHistory) =>
       new Date(payment.date).getMonth() === month &&
-      new Date(payment.date).getFullYear() === year
+      new Date(payment.date).getFullYear() === year,
   );
 
   if (paymentStatusForMonth) {
@@ -90,7 +90,7 @@ export default function ItemListTransaction({
           </div>
         </div>
       </div>{" "}
-      <div className="w-fit text-[0.7rem] md:text-sm">
+      <div className="w-fit text-sm">
         R$ {formater.execute(transaction.value / transaction.installments)}{" "}
       </div>
       <div className="flex lg:gap-4 gap-2">

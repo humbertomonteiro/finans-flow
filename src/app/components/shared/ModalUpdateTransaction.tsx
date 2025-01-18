@@ -1,8 +1,13 @@
-import { Transaction } from "@/domain";
+import { Transaction, TransactionType } from "@/domain";
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { IoClose } from "react-icons/io5";
 
 import useTransaction from "@/app/data/hooks/useTransaction";
+
+import {
+  incomesCategories,
+  expensesCategories,
+} from "@/app/data/constants/categories";
 
 interface ModalUpdateTransactionProps {
   transaction: Transaction;
@@ -62,14 +67,34 @@ export default function ModalUpdateTransaction({
               value={value}
             />
           </label>
-          <label htmlFor="">
+          <label>
             <p className="text-[0.7rem]">Categoria</p>
-            <input
-              type="text"
+            <select
               className="input"
               onChange={(e) => setCategory(e.target.value)}
               value={category}
-            />
+              required
+            >
+              <option value="">Escolha uma categoria</option>
+
+              {transaction.type === TransactionType.INCOME ? (
+                <>
+                  {incomesCategories.map((category, index) => (
+                    <option key={index} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {expensesCategories.map((category, index) => (
+                    <option key={index} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </>
+              )}
+            </select>
           </label>
           <button className="button">Editar</button>
         </form>
